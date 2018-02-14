@@ -1,0 +1,32 @@
+function [R_s, R ,M, NumOfCorner] = HarrisCornerDetectior( I,k,threshold)
+figure;
+imshow(I);
+Ix = ComputeDerivatives(I,[-1 0 1;-1 0 1;-1 0 1;]);
+Iy = ComputeDerivatives(I,[-1 -1 -1;0 0 0;1 1 1;]);
+figure;
+imshow(Ix);
+figure;
+imshow(Iy);
+Ixx = Ix.*Ix;
+Iyy = Iy.*Iy;
+Ixy = Ix.*Iy;
+figure;
+imshow(Ixx);
+figure;
+imshow(Iyy);
+figure;
+imshow(Ixy);
+H = [1 4 7 4 1; 4 16 26 16 4; 7 26 41 26 41; 4 16 26 16 4; 1 4 7 4 1];
+Sxx = imfilter(Ixx,H);
+Syy = imfilter(Iyy,H);
+Sxy = imfilter(Ixy,H);
+figure;
+imshow(Sxx);
+figure;
+imshow(Syy);
+figure;
+imshow(Sxy);
+[R_s,R,M,NumOfCorner] = GetHArrisMatrix(Sxx,Syy,Sxy,k,threshold);
+figure;
+imshow(R_s);
+end
